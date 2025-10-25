@@ -21,7 +21,10 @@ npm run dev
 
 Variables de entorno (.env)
 PORT=4000
+
+
 MONGO_URI=mongodb://localhost:27017/registro_estudiantes
+
 NODE_ENV=development
 
 
