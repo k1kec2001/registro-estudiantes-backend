@@ -7,6 +7,7 @@ import {
   updateStudent,
   deleteStudent,
 } from "../controllers/student.controller.js";
+import { authRequired } from "../middlewares/auth.middleware.js";
 
 const r = Router();
 
@@ -18,10 +19,13 @@ const createOrUpdateValidators = [
   body("status").optional().isIn(["active", "inactive"]),
 ];
 
+// Rutas públicas
 r.get("/", listStudents);
 r.get("/:id", getStudent);
-r.post("/", createOrUpdateValidators, createStudent);
-r.put("/:id", createOrUpdateValidators, updateStudent);
-r.delete("/:id", deleteStudent);
+
+// Rutas protegidas (requieren JWT)
+r.post("/", authRequired, createOrUpdateValidators, createStudent);
+r.put("/:id", authRequired, createOrUpdateValidators, updateStudent);
+r.delete("/:id", authRequired, deleteStudent);
 
 export default r;

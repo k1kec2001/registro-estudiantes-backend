@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sistema Registro de Estudiantes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Bootstrap CDN opcional para que se vea decente -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-light">
+  <nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">Registro de Estudiantes</span>
+      <button id="btnLogout" class="btn btn-outline-light btn-sm d-none">
+        Cerrar sesión
+      </button>
+    </div>
+  </nav>
+
+  <main class="container pb-5">
+    <!-- LOGIN -->
+    <section id="loginSection" class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Inicio de sesión</h5>
+            <form id="loginForm">
+              <div class="mb-3">
+                <label class="form-label">Correo</label>
+                <input type="email" class="form-control" id="loginEmail" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="loginPassword" required />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                Ingresar
+              </button>
+            </form>
+            <div id="loginError" class="text-danger mt-3 small d-none"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboardSection" class="d-none">
+      <ul class="nav nav-tabs mb-3" id="mainTabs">
+        <li class="nav-item">
+          <button class="nav-link active" data-section="studentsSection">Estudiantes</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-section="coursesSection">Cursos</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-section="enrollmentsSection">Matrículas</button>
+        </li>
+      </ul>
+
+      <!-- Estudiantes -->
+      <section id="studentsSection">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Nuevo estudiante</h5>
+            <form id="studentForm" class="mb-3">
+              <div class="mb-2">
+                <label class="form-label">Nombres</label>
+                <input type="text" id="firstName" class="form-control" required />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Apellidos</label>
+                <input type="text" id="lastName" class="form-control" required />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Correo</label>
+                <input type="email" id="email" class="form-control" required />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Documento</label>
+                <input type="text" id="documentId" class="form-control" required />
+              </div>
+              <button type="submit" class="btn btn-success w-100">
+                Guardar estudiante
+              </button>
+            </form>
+          </div>
+          <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="mb-0">Listado de estudiantes</h5>
+              <button id="btnReloadStudents" class="btn btn-outline-secondary btn-sm">
+                Recargar
+              </button>
+            </div>
+            <table class="table table-sm table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Documento</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cursos -->
+      <section id="coursesSection" class="d-none">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Nuevo curso</h5>
+            <form id="courseForm" class="mb-3">
+              <div class="mb-2">
+                <label class="form-label">Código</label>
+                <input type="text" id="code" class="form-control" required />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Nombre</label>
+                <input type="text" id="name" class="form-control" required />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Créditos</label>
+                <input type="number" id="credits" class="form-control" value="3" />
+              </div>
+              <button type="submit" class="btn btn-success w-100">
+                Guardar curso
+              </button>
+            </form>
+          </div>
+          <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="mb-0">Listado de cursos</h5>
+              <button id="btnReloadCourses" class="btn btn-outline-secondary btn-sm">
+                Recargar
+              </button>
+            </div>
+            <table class="table table-sm table-striped">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Nombre</th>
+                  <th>Créditos</th>
+                </tr>
+              </thead>
+              <tbody id="coursesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Matrículas -->
+      <section id="enrollmentsSection" class="d-none">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Nueva matrícula</h5>
+            <form id="enrollmentForm" class="mb-3">
+              <div class="mb-2">
+                <label class="form-label">Estudiante</label>
+                <select id="enrollmentStudent" class="form-select" required></select>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Curso</label>
+                <select id="enrollmentCourse" class="form-select" required></select>
+              </div>
+              <button type="submit" class="btn btn-success w-100">
+                Matricular
+              </button>
+            </form>
+          </div>
+          <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="mb-0">Matrículas registradas</h5>
+              <button id="btnReloadEnrollments" class="btn btn-outline-secondary btn-sm">
+                Recargar
+              </button>
+            </div>
+            <table class="table table-sm table-striped">
+              <thead>
+                <tr>
+                  <th>Estudiante</th>
+                  <th>Curso</th>
+                </tr>
+              </thead>
+              <tbody id="enrollmentsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+    <!-- <script src="js/auth.js"></script>  <- QUITAR O COMENTAR -->
+
+</body>
+</html>
